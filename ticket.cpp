@@ -4,75 +4,50 @@
 #include "utils.h"
 
 Ticket::Ticket(const char* data){
-    unsigned int ind=0;
-    size_t i=0;
-    size_t otstup=0;
-    char s=data[i];
-    while(ind!=9){
-        if (s==' '){
-            if(ind==4){
+    size_t len=strlen(data);
+    char s=0;
+    int ind=0;
+    bool mistake=false;
+    Array<char>* for_m;
+    int indate=0;
+    Array<char>* element=nullptr;
+    for(size_t i=0; i<len && int(data[i])!=0; ++i){
+        s=data[i];
+        if(s==' '){
+            if (mistake){
 
             }
             ++ind;
-        } else if(s==','){
-            continue;
-        }
-        if (ind==1){
-            if (s==' '){
-                otstup=0;
-            } else {
-                number[otstup]=s;
-                ++otstup;
+            if (ind==4 || ind==5){
+                indate=0;
+                Array<char>* element=nullptr;
             }
-            
-        } else if (ind==2){
-            if (s==' '){
-                otstup=0;
-            } else {
-                from[otstup]=s;
-                ++otstup;
-            }
-        } else if (ind==3){
-            if (s==' '){
-                otstup=0;
-            } else {
-                to[otstup]=s;
-                ++otstup;
-            }
-        } else if (ind==4){
-            int ind_date=0;
-            char* tmp=nullptr;
-            if (s==' '){
-                otstup=0;
-            } else {
-                if (s=='.'){
-                    if(ind_date==0){
-                        if (strlen(tmp)==2){
-                            if (tmp[0]=='0'){
-                                date_avia->day=tmp[1]-'0';
-                            } else {
-                                date_avia->day=str_num_to_int_num(tmp);
-                            }
-                        } else {
-                            date_avia->day=str_num_to_int_num(tmp);
-                        }
-                    } else if(ind_date==1){
-                        if (strlen(tmp)==2){
-                            if (tmp[0]=='0'){
-                                date_avia->mounth=tmp[1]-'0';
-                            } else {
-                                date_avia->mounth=str_num_to_int_num(tmp);
-                            }
-                        } else {
-                            date_avia->mounth=str_num_to_int_num(tmp);
-                        }
+        } else if (s!=','){
+            switch (ind){
+            case 1:
+                numeral_->push_back(s);
+                break;
+            case 2:
+                from_->push_back(s);
+                break;
+            case 3:
+                to_->push_back(s);
+                break;
+            case 4:
+                for_m->push_back(s);
+                if ((s>='0' && s<='9')||(s=='.')){
+                    if (s=='.'){
+                        ++indate;
+                    } else {
+                        element->push_back(s);
                     }
                 } else {
-                    push_element(tmp, &otstup, s);
+                    mistake=true;
                 }
+                break;
+            default:
+                break;
             }
         }
-        ++i;
-        s=data[i];
     }
 }

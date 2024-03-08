@@ -3,6 +3,7 @@
 #include <cstring>
 #include <utility>
 #include <fstream>
+#include <iostream>
 #include <cmath>
 template <typename T>
 class Array{
@@ -88,5 +89,13 @@ double Array<T>::str_to_double(const Array<char>& str) const{
         result=result+(int)(s-'0')*pow(0.1, j-i+1);
     }
     return result;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const Array<T>& X){
+    for(size_t i=0; i<size_; ++i){
+        out<<X[i];
+    }
+    return out;
 }
 #endif
