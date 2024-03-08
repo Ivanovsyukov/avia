@@ -3,7 +3,7 @@
 #include <cstring>
 #include "utils.h"
 
-void Ticket::set(char* data){
+Ticket::Ticket(const char* data){
     unsigned int ind=0;
     size_t i=0;
     size_t otstup=0;
