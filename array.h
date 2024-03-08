@@ -75,17 +75,17 @@ int Array<T>::str_to_int(const Array<char>& str) const{
 template <typename T>
 double Array<T>::str_to_double(const Array<char>& str) const{
     double result=0.0;
-    char s=0;
     size_t i=0;
-    while(s!='.'){
-        s=str[i];
+    char s=str[i];
+    while(s!='.' && i<size_){
         result=result*10+(int)(s-'0');
         ++i;
+        s=str[i];
     }
     ++i;
     for(size_t j=i; j<size_; ++j){
         s=str[j];
-        result=result+(int)(s-'0')*pow(0.1, j+1);
+        result=result+(int)(s-'0')*pow(0.1, j-i+1);
     }
     return result;
 }
