@@ -11,7 +11,7 @@ class Ticket{
     char number[7];
     char from[3];
     char to[3];
-    date* date_avia;
+    date date_avia;
     int count_ticket;
     double sale;
 public:
