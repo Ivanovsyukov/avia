@@ -6,6 +6,12 @@
 #include "utils.h"
 
 int main(){
+    Array<char> number;
+    number.push_back('1');
+    number.push_back('1');
+    number.push_back('1');
+    std::cout << number << std::endl;
+    /*
     Array<char> number1;
     number1.push_back('1');
     number1.push_back('2');
@@ -18,5 +24,6 @@ int main(){
     number2.push_back('3');
     double result=number1.str_to_double(number1)+number2.str_to_double(number2);
     std::cout<<result<<std::endl;
+    */
     return 0;
 }

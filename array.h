@@ -18,8 +18,8 @@ public:
     Array& operator=(const Array& other);
     void push_back(const T& X);
     size_t size() const{return size_;}
-    int str_to_int(const Array<char>& str) const;
-    double str_to_double(const Array<char>& str) const;
+    int str_to_int() const;
+    double str_to_double() const;
     const T& operator[](size_t index) const{
         if(index>size_){
             throw "Out of limits";
@@ -53,7 +53,7 @@ Array<T>& Array<T>::operator=(const Array<T>& other){
 template <typename T>
 void Array<T>::push_back(const T& X){
 	T* tmp = new T[size_+1];
-	for(int i=0; i<size_; ++i){
+	for(size_t i=0; i<size_; ++i){
 			tmp[i] = std::move(data_[i]);
 	}
 	delete[] data_;
@@ -63,7 +63,7 @@ void Array<T>::push_back(const T& X){
 }
 
 template <typename T>
-int Array<T>::str_to_int(const Array<char>& str) const{
+int Array<T>::str_to_int() const{
     int result=0;
     char s=0;
     for(size_t i=0; i<size_; ++i){
@@ -74,7 +74,7 @@ int Array<T>::str_to_int(const Array<char>& str) const{
 }
 
 template <typename T>
-double Array<T>::str_to_double(const Array<char>& str) const{
+double Array<T>::str_to_double() const{
     double result=0.0;
     size_t i=0;
     char s=str[i];
@@ -93,7 +93,7 @@ double Array<T>::str_to_double(const Array<char>& str) const{
 
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const Array<T>& X){
-    for(size_t i=0; i<size_; ++i){
+    for(size_t i=0; i<X.size(); ++i){
         out<<X[i];
     }
     return out;
