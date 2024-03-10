@@ -11,10 +11,10 @@ struct date{
     int minutes;
 };
 
-bool operator==(const date& left, const date& right);
-bool operator!=(const date& left, const date& right);
-bool operator<(const date& left, const date& right);
-std::ostream& operator<<(std::ostream& out, const date& X);
+bool operator==(const date& left, const date& right);//ok
+bool operator!=(const date& left, const date& right);//ok
+bool operator<(const date& left, const date& right);//ok
+std::ostream& operator<<(std::ostream& out, const date& X);//ok
 
 class Ticket{
     Array<char> numeral_;
@@ -26,9 +26,9 @@ class Ticket{
     double sale_;
 public:
     Ticket(Array<char> numeral, Array<char> from, Array<char> to, date date_from, date date_to, int count_ticket=0, double sale=0.0): numeral_(numeral), from_(from), to_(to), date_from_(date_from), date_to_(date_to), count_ticket_(count_ticket), sale_(sale){};
-    Ticket(const char* data);
-    Ticket(const Ticket& other);
-    Ticket& operator=(const Ticket& other);
+    Ticket(const char* data);//ok
+    Ticket(const Ticket& other);//ok
+    Ticket& operator=(const Ticket& other);//ok
     Array<char> ID() const{return numeral_;}
     Array<char> from() const{return from_;}
     Array<char> to() const{return to_;}
@@ -40,11 +40,11 @@ public:
     ~Ticket(){}
 };
 
-bool operator==(const Ticket& left, const Ticket& right);
-bool operator!=(const Ticket& left, const Ticket& right);
-bool operator<(const Ticket& left, const Ticket& right);
+bool operator==(const Ticket& left, const Ticket& right);//ok
+bool operator!=(const Ticket& left, const Ticket& right);//ok
+bool operator<(const Ticket& left, const Ticket& right);//ok
 
-std::ostream& operator<<(std::ostream& out, const Ticket& X);
-std::ifstream& operator>>(std::ifstream& infile, const Ticket& X);
-std::ofstream& operator<<(std::ofstream& outfile, const Ticket& X);
+std::ostream& operator<<(std::ostream& out, const Ticket& X);//ok
+std::ifstream& operator>>(std::ifstream& infile, Ticket& X);//ok
+std::ofstream& operator<<(std::ofstream& outfile, const Ticket& X);//ok
 #endif

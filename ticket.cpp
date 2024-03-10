@@ -16,7 +16,7 @@ Ticket::Ticket(const char* data){
     bool miss=false;
     for(size_t i=0; i<len && int(data[i])!=0 && !miss && point_last<3; ++i){
         s=data[i];
-        if(s==' ' || point_last==2){
+        if(s==' '){
             if (mistake!=0 || ind==9){
                 miss=true;
             } else {
@@ -152,10 +152,6 @@ Ticket::Ticket(const char* data){
                             mistake=11;//Неверная команда
                         }
                         ++indate;
-                    } else {
-                        if(indate==1){
-                            ++point_last;
-                        }
                     }
                 } else {
                     mistake=10;//Неверная команда
@@ -174,6 +170,98 @@ Ticket::Ticket(const char* data){
     }
 }
 
+Ticket::Ticket(const Ticket& other){
+    numeral_=other.numeral_;
+    from_=other.from_;
+    to_=other.to_;
+    date_from_=other.date_from_;
+    date_to_=other.date_to_;
+    count_ticket_=other.count_ticket_;
+    sale_=other.sale_;
+}
+
+
+Ticket& Ticket::operator=(const Ticket& other){
+    if (this!=&other){
+        numeral_=other.numeral_;
+        from_=other.from_;
+        to_=other.to_;
+        date_from_=other.date_from_;
+        date_to_=other.date_to_;
+        count_ticket_=other.count_ticket_;
+        sale_=other.sale_;
+    }
+    return *this;
+}
+
+bool operator==(const Ticket& left, const Ticket& right){
+    if ((left.ID()==right.ID())&&(left.from()==right.from())&&(left.to()==right.to())&&(left.date_from()==right.date_from())&&(left.date_to()==right.date_to())&&(left.count()==right.count())&&(left.sale()==right.sale())){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool operator!=(const Ticket& left, const Ticket& right){
+    if (left==right){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+bool operator<(const Ticket& left, const Ticket& right){
+    if (left.date_from()<right.date_from()){
+        return true;
+    } else if(left.date_from()==right.date_from()){
+        if(left.ID()<right.ID()){
+            return true;
+        } else if(left.ID()==right.ID()){
+            if(left.sale()<right.sale()){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+std::ifstream& operator>>(std::ifstream& infile, Ticket& X){
+    char* input=new char[2];
+    size_t h=2;
+    input[0]='a';
+    input[1]=' ';
+    char s;
+    infile>>s;
+    while(s!='\n' && s!='\r'){
+        input=push_element(input, &h, s);
+        infile>>s;
+    }
+    X=Ticket(input);
+    return infile;
+}
+
+std::ofstream& operator<<(std::ofstream& outfile, const Ticket& X){
+    outfile<<X.ID();
+    outfile<<', '<<' ';
+    outfile<<X.from();
+    outfile<<', '<<' ';
+    outfile<<X.to();
+    outfile<<', '<<' ';
+    outfile<<X.date_from();
+    outfile<<', '<<' ';
+    outfile<<X.date_to();
+    outfile<<', '<<' ';
+    outfile<<X.count();
+    outfile<<', '<<' ';
+    outfile<<X.sale();
+    return outfile;
+}
+
 std::ostream& operator<<(std::ostream& out, const Ticket& X){
     out<<X.ID()<<", ";
     out<<X.from()<<", ";
@@ -186,14 +274,50 @@ std::ostream& operator<<(std::ostream& out, const Ticket& X){
 }
 
 std::ostream& operator<<(std::ostream& out, const date& X){
-    out<<X.day;
-    out<<'.';
-    out<<X.mounth;
-    out<<'.';
     out<<X.year;
     out<<' ';
+    if (X.mounth<10){
+        out<<'0';
+    }
+    out<<X.mounth;
+    out<<'.';
+    if (X.day<10){
+        out<<'0';
+    }
+    out<<X.day;
+    out<<'.';
+    if (X.hour<10){
+        out<<'0';
+    }
     out<<X.hour;
     out<<':';
+    if (X.minutes<10){
+        out<<'0';
+    }
     out<<X.minutes;
     return out;
+}
+
+bool operator==(const date& left, const date& right){
+    if ((left.day==right.day)&&(left.mounth==right.mounth)&&(left.year==right.year)&&(left.hour==right.hour)&&(left.minutes==right.minutes)){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool operator!=(const date& left, const date& right){
+    if(left==right){
+        return false;
+    } else{
+        return true;
+    }
+}
+
+bool operator<(const date& left, const date& right){
+    if((left.day<right.day)&&(left.mounth<right.mounth)&&(left.year<right.year)&&(left.hour<right.hour)&&(left.minutes<right.minutes)){
+        return false;
+    } else{
+        return true;
+    }
 }
