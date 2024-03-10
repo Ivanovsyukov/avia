@@ -1,4 +1,5 @@
 #include "ticket.h"
+#include <iostream>
 #include <fstream>
 #include <cstring>
 #include "utils.h"
@@ -16,13 +17,19 @@ Ticket::Ticket(const char* data){
     for(size_t i=0; i<len && int(data[i])!=0 && !miss && point_last<3; ++i){
         s=data[i];
         if(s==' ' || point_last==2){
-            if (mistake!=0){
+            if (mistake!=0 || ind==9){
                 miss=true;
             } else {
                 if (ind==8){
                     count_ticket_=for_m.str_to_int();
-                } else if(ind==9){
-                    sale_=for_m.str_to_double();
+                } else if(ind==4 && indate==2){
+                    date_from_.year=element.str_to_int();
+                } else if(ind==5){
+                    date_from_.minutes=element.str_to_int();
+                } else if(ind==6 && indate==2){
+                    date_to_.year=element.str_to_int();
+                } else if(ind==7){
+                    date_to_.minutes=element.str_to_int();
                 }
                 ++ind;
                 for_m=Array<char>(0);
@@ -62,8 +69,6 @@ Ticket::Ticket(const char* data){
                             date_from_.day=element.str_to_int();
                         } else if (indate==1){
                             date_from_.mounth=element.str_to_int();
-                        } else if (indate==2){
-                            date_from_.year=element.str_to_int();
                         } else {
                             mistake=4;
                         }
@@ -79,12 +84,10 @@ Ticket::Ticket(const char* data){
             case 5:
                 for_m.push_back(s);
                 if ((s>='0' && s<='9')||(s==':')){
-                    if (s=='.'){
+                    if (s==':'){
                         if (indate==0){
                             date_from_.hour=element.str_to_int();
-                        } else if (indate==1){
-                            date_from_.minutes=element.str_to_int();
-                        } else {
+                        }else {
                             mistake=5;
                         }
                         ++indate;
@@ -104,9 +107,7 @@ Ticket::Ticket(const char* data){
                             date_to_.day=element.str_to_int();
                         } else if (indate==1){
                             date_to_.mounth=element.str_to_int();
-                        } else if (indate==2){
-                            date_to_.year=element.str_to_int();
-                        } else {
+                        } else{
                             mistake=7;
                         }
                         ++indate;
@@ -121,11 +122,9 @@ Ticket::Ticket(const char* data){
             case 7:
                 for_m.push_back(s);
                 if ((s>='0' && s<='9')||(s==':')){
-                    if (s=='.'){
+                    if (s==':'){
                         if (indate==0){
                             date_to_.hour=element.str_to_int();
-                        } else if (indate==1){
-                            date_to_.minutes=element.str_to_int();
                         } else {
                             mistake=8;
                         }
@@ -166,9 +165,35 @@ Ticket::Ticket(const char* data){
                 break;
             }
         }
-        if (miss){
-            std::cout<<mistake<<std::endl;
-            throw "Misstake";
-        }
     }
+    if (miss){
+        std::cout<<"mistake: "<< mistake<<std::endl;
+        throw "Misstake";
+    } else {
+        sale_=for_m.str_to_double();
+    }
+}
+
+std::ostream& operator<<(std::ostream& out, const Ticket& X){
+    out<<X.ID()<<", ";
+    out<<X.from()<<", ";
+    out<<X.to()<<", ";
+    out<<X.date_from()<<", ";
+    out<<X.date_to()<<", ";
+    out<<X.count()<<", ";
+    out<<X.sale();
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const date& X){
+    out<<X.day;
+    out<<'.';
+    out<<X.mounth;
+    out<<'.';
+    out<<X.year;
+    out<<' ';
+    out<<X.hour;
+    out<<':';
+    out<<X.minutes;
+    return out;
 }

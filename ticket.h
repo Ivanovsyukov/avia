@@ -29,15 +29,15 @@ public:
     Ticket(const char* data);
     Ticket(const Ticket& other);
     Ticket& operator=(const Ticket& other);
-    Array<char> ID(){return numeral_;}
-    Array<char> from(){return from_;}
-    Array<char> to(){return to_;}
-    date date_from(){return date_from_;}
-    date date_to(){return date_to_;}
-    int count(){return count_ticket_;}
-    double sale(){return sale_;}
+    Array<char> ID() const{return numeral_;}
+    Array<char> from() const{return from_;}
+    Array<char> to() const{return to_;}
+    date date_from() const{return date_from_;}
+    date date_to() const{return date_to_;}
+    int count() const{return count_ticket_;}
+    double sale() const{return sale_;}
 
-    ~Ticket();
+    ~Ticket(){}
 };
 
 bool operator==(const Ticket& left, const Ticket& right);

@@ -6,11 +6,9 @@
 #include "utils.h"
 
 int main(){
-    Array<char> number;
-    number.push_back('1');
-    number.push_back('1');
-    number.push_back('1');
-    std::cout << number << std::endl;
+    char* input="add CA-909999, PKX, SVO, 19.02.2024 8:40, 19.02.2024 17:00, 5, 80499";
+    Ticket prime(input);
+    std::cout << prime <<std::endl;
     /*
     Array<char> number1;
     number1.push_back('1');

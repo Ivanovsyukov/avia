@@ -1,6 +1,6 @@
 #ifndef MY_UTILS_FOR_HEXVIEW_16122023_Parteyeye_
 #define MY_UTILS_FOR_HEXVIEW_16122023_Parteyeye_
-
+#include <fstream>
 template <typename T>
 T* push_element(T const* str, size_t* len_str, T sym){
     T* tmp=new T [*len_str+1];
