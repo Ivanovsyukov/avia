@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=test_element.cpp ticket.cpp
+SOURCES=test_element.cpp ticket.cpp utils.cpp array.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=test5
+EXECUTABLE=test6
 
 all: $(SOURCES) $(EXECUTABLE)
 	

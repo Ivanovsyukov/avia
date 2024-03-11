@@ -15,6 +15,9 @@ bool operator==(const date& left, const date& right);//ok
 bool operator!=(const date& left, const date& right);//ok
 bool operator<(const date& left, const date& right);//ok
 std::ostream& operator<<(std::ostream& out, const date& X);//ok
+bool cure_mounth(const date& x);
+bool cure_time(const date& x);
+bool cure_day(const date& x);
 
 class Ticket{
     Array<char> numeral_;
