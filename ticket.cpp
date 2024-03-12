@@ -4,6 +4,14 @@
 #include <cstring>
 #include "utils.h"
 
+Ticket::Ticket(){
+    count_ticket_=0;
+    sale_=0;
+    from_=Array<char>();
+    to_=Array<char>();
+    numeral_=Array<char>();
+}
+
 bool cure_day(const date& x){
     if (x.mounth==2){
         if (x.year%4==0){

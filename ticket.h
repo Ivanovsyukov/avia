@@ -28,6 +28,7 @@ class Ticket{
     int count_ticket_;
     double sale_;
 public:
+    Ticket();
     Ticket(Array<char> numeral, Array<char> from, Array<char> to, date date_from, date date_to, int count_ticket=0, double sale=0.0): numeral_(numeral), from_(from), to_(to), date_from_(date_from), date_to_(date_to), count_ticket_(count_ticket), sale_(sale){};
     Ticket(const char* data);//ok
     Ticket(const Ticket& other);//ok

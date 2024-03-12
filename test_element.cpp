@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include "database.h"
 #include "ticket.h"
 #include "array.h"
 #include "utils.h"

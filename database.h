@@ -5,7 +5,7 @@
 #include "utils.h"
 struct Node{
 	Ticket data;
-    int numeral_element;
+    int num_element;
 	Node * next;
 };
 
@@ -15,7 +15,7 @@ class DataBase{
 	Node* end_;
 public:
     DataBase(int count=0, Node* begin=nullptr, Node* end=nullptr):count_(count), begin_(begin), end_(end){}
-    DataBase(Node first);
+    DataBase(Ticket& first);
     int addRecord();
     void clear();
     void schedule(Array<char> from_, Array<char> to_);
