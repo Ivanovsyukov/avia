@@ -29,33 +29,49 @@ void DataBase::addRecord(Ticket& addend){
 	++count_;
 }
 
-void deleteRecord_for_ID(DataBase& DB){
-	Node* index = findRecord(DB);
-	if (index == nullptr ) return;
-
-	std::cout<< "Are you sure? (Y/N)";
-	char ch[128];
-	std::cin.get(ch, 128);
-	if (ch[0]=='Y' || ch[0]=='y'){
-		Node * parent=nullptr;
-		Node * now = DB.begin;
-		while (now && now!=index){
-			parent = now;
-			now = now->next;
+void DataBase::deleteRecord_for_ID(int indentifical){
+	Node * parent=nullptr;
+	Node * now = begin_;
+	while (now && now->num_element!=indentifical){
+		parent = now;
+		now = now->next;
+	}
+	if (now){
+		if (indentifical == end_->num_element){
+			end_ = parent;
 		}
-		if (now){
-			if (index == DB.end){
-				DB.end = parent;
-			}
 
-			if (parent){
-				parent->next = index->next;
-				// parent->next = parent->next->next;
-			} else {
-				DB.begin = DB.begin->next;
-			}
-			delete index;
+		if (parent){
+			parent->next = now->next;
+			// parent->next = parent->next->next;
+		} else {
+			begin_ = begin_->next;
 		}
-		--DB.count;
-	}		 
+		delete now;
+	}
+	if(indentifical==last_numeral_){
+		--last_numeral_;
+	}
+	--count_;	 
+}
+
+void DataBase::clear(){
+	Node * parent=nullptr;
+	Node * now = begin_;
+	if (now->data.count()==0){
+		begin_=begin_->next;
+		delete now;
+	}
+	while (now){
+		parent = now;
+		now = now->next;
+		if (now==end_ && now->data.count()==0){
+			end_=parent;
+			delete now;
+			parent->next=nullptr;
+		} else if (now->data.count()==0){
+			parent->next = now->next;
+			delete now;
+		}
+	}
 }

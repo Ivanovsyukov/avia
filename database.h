@@ -18,20 +18,20 @@ public:
     DataBase(int last_numeral=0, int count=0, Node* begin=nullptr, Node* end=nullptr):last_numeral_(last_numeral), count_(count), begin_(begin), end_(end){}
     //DataBase(Ticket& first);
     //first
-    void addRecord(Ticket& addend);
-    void clear();
+    void addRecord(Ticket& addend);//ok
+    void clear();//ok
     void schedule(Array<char> from_, Array<char> to_);
     void printDB() const;
     void saveDB(const char filename[]) const;
     void exportDB(const char filename[]) const;
     int openDB(const char filename[]);
-    void deleteRecord_for_ID(int indentifical);
+    void deleteRecord_for_ID(int indentifical);//ok
     Node* findRecord_for_input(Array<char> from_, Array<char> to_) const;
     //second
     void sort();
     Node* findRecord_for_ID(int ID);
     void deleteRecord_for_Node(Node* need_delete);
-    ~DataBase(){
+    ~DataBase(){//ok
         Node* now;
 	    while(begin_){
 		    now = begin_->next;
