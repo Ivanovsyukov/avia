@@ -20,7 +20,7 @@ public:
     //first
     void addRecord(Ticket& addend);//ok
     void clear();//ok
-    void schedule(Array<char> from_, Array<char> to_);
+    void schedule(Array<char> from, date data_from);
     void printDB() const;
     void saveDB(const char filename[]) const;
     void exportDB(const char filename[]) const;

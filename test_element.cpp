@@ -7,9 +7,30 @@
 #include "utils.h"
 
 int main(){
+    DataBase all;
     char* input="add CA-909, PKX, SVO, 19.02.2024 8:40, 19.02.2024 17:00, 5, 80499";
-    Ticket prime(input);
-    std::cout << prime <<std::endl;
+    Ticket prime1(input);
+    all.addRecord(prime1);
+    delete[] input;
+    input="add CA-909, PKX, SVO, 19.02.2024 8:39, 19.02.2024 17:00, 5, 80499";
+    Ticket prime2(input);
+    all.addRecord(prime2);
+    delete[] input;
+    input="add CA-909, PKX, SVO, 19.02.2024 8:45, 19.02.2024 17:00, 5, 80499";
+    Ticket prime3(input);
+    all.addRecord(prime2);
+    delete[] input;
+    Array<char> air;
+    air.push_back('P');
+    air.push_back('K');
+    air.push_back('X');
+    date my;
+    my.day=19;
+    my.mounth=2;
+    my.year=2024;
+    my.hour=0;
+    my.day=0;
+    all.schedule(air, my);
     /*
     Array<char> number1;
     number1.push_back('1');

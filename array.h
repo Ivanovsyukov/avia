@@ -14,9 +14,19 @@ public:
     ~Array(){
         delete[] data_;
     }
+    void swap(Array<T>& other){
+        size_t tmp_len=size_;
+        size_=other.size_;
+        other.size_=tmp_len;
+        T* tmp=data_;
+	    data_=other.data_;
+        other.data_=tmp;
+        delete tmp;
+	}
     Array(const Array& other);
     Array& operator=(const Array& other);
     void push_back(const T& X);
+    //T* data() const{return data_;}
     size_t size() const{return size_;}
     int str_to_int() const;
     double str_to_double() const;
@@ -32,7 +42,7 @@ template <typename T>
 Array<T>::Array(const Array<T>& other){
 	size_ = other.size_;
 	data_ = new T[size_];
-	for(int i=0; i<size_; ++i){
+	for(size_t i=0; i<size_; ++i){
 		data_[i] = other.data_[i];
 	}
 }
@@ -43,7 +53,7 @@ Array<T>& Array<T>::operator=(const Array<T>& other){
 		delete[] data_;
 		size_ = other.size_;
 		data_ = new T[size_];
-		for(int i=0; i<size_; ++i){
+		for(size_t i=0; i<size_; ++i){
 			data_[i] = other.data_[i];
 		}
 	}

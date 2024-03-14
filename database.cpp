@@ -75,3 +75,54 @@ void DataBase::clear(){
 		}
 	}
 }
+
+void DataBase::schedule(Array<char> from_air, date data_from){
+	Ticket* important=nullptr;
+	size_t important_size=0;
+	Node * now = begin_;
+	while(now){
+		if (now->data.from()==from_air && (equal_date_without_time(data_from, now->data.date_from()))){
+			push_element(important, &important_size, now->data);
+		}
+		now = now->next;
+	}
+	//sort
+	Ticket* tmp = new Ticket[important_size];
+	Ticket* from = important;
+	Ticket* to = tmp;
+	for(size_t step=1; step < important_size; step*=2){
+		size_t start1, end1, start2, end2;
+		size_t indto = 0;
+		for(size_t start=0; start<important_size; start += 2*step){
+			start1 = start;
+			end1 = start1+step;
+			end1 = end1<important_size ? end1 : important_size;
+			start2 = end1;
+			end2 = start2+step;
+			end2 = end2<important_size ? end2 : important_size;
+			while(start1<end1 && start2<end2){
+				to[indto++] = (minimum_time_without_date(from[start1++].date_from(), from[start2++].date_from())) ? from[start1++] : from[start2++];
+			}
+			while(start1<end1){
+				to[indto++] = from[start1++];
+			}
+			while(start2<end2){
+				to[indto++] = from[start2++];
+			}
+		}
+		std::swap(from, to);
+	}
+
+	if (from!=important){
+		size_t ind=0;
+		while(ind < important_size){
+			important[ind] = tmp[ind];
+			++ind;
+		}
+	}
+	delete[] tmp;
+	//output
+	for(size_t i=0; i<important_size; ++i){
+		std::cout<<important[i].ID()<<" "<<important[i].from()<<important[i].date_from()<<std::endl;
+	}
+}

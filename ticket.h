@@ -18,6 +18,8 @@ std::ostream& operator<<(std::ostream& out, const date& X);//ok
 bool cure_mounth(const date& x);
 bool cure_time(const date& x);
 bool cure_day(const date& x);
+bool equal_date_without_time(const date& left, const date& right);
+bool minimum_time_without_date(const date& left, const date& right);
 
 class Ticket{
     Array<char> numeral_;

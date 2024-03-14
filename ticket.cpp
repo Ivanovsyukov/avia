@@ -46,7 +46,19 @@ bool cure_mounth(const date& x){
 }
 
 bool cure_time(const date& x){
-    return (x.minutes>0 && x.minutes<60) && (x.hour>0 && x.hour<24);
+    return (x.minutes>=0 && x.minutes<60) && (x.hour>=0 && x.hour<24);
+}
+
+bool equal_date_without_time(const date& left, const date& right){
+    return ((left.day==right.day)&&(left.mounth==right.mounth)&&(left.year==right.year));
+}
+
+bool minimum_time_without_date(const date& left, const date& right){
+    return ((left.hour<right.hour)||((left.hour==right.hour)&&(left.minutes<right.minutes)));
+}
+
+bool minimum_date_without_time(const date& left, const date& right){
+    return ((left.year<right.year)||((left.year==right.year)&&(left.mounth<right.mounth))||((left.year==right.year)&&(left.mounth==right.mounth)&&(left.day<right.day)));
 }
 
 Ticket::Ticket(const char* data){
@@ -67,7 +79,7 @@ Ticket::Ticket(const char* data){
                     count_ticket_=for_m.str_to_int();
                 } else if(ind==4 && indate==2){
                     date_from_.year=element.str_to_int();
-                    if(cure_day(date_from_)){
+                    if(!(cure_day(date_from_))){
                         mistake=14;
                     }
                 } else if(ind==5){
@@ -77,7 +89,7 @@ Ticket::Ticket(const char* data){
                     }
                 } else if(ind==6 && indate==2){
                     date_to_.year=element.str_to_int();
-                    if(cure_day(date_to_)){
+                    if(!(cure_day(date_to_))){
                         mistake=16;
                     }
                 } else if(ind==7){
@@ -362,17 +374,17 @@ std::ifstream& operator>>(std::ifstream& infile, Ticket& X){
 
 std::ofstream& operator<<(std::ofstream& outfile, const Ticket& X){
     outfile<<X.ID();
-    outfile<<', '<<' ';
+    outfile<<','<<' ';
     outfile<<X.from();
-    outfile<<', '<<' ';
+    outfile<<','<<' ';
     outfile<<X.to();
-    outfile<<', '<<' ';
+    outfile<<','<<' ';
     outfile<<X.date_from();
-    outfile<<', '<<' ';
+    outfile<<','<<' ';
     outfile<<X.date_to();
-    outfile<<', '<<' ';
+    outfile<<','<<' ';
     outfile<<X.count();
-    outfile<<', '<<' ';
+    outfile<<','<<' ';
     outfile<<X.sale();
     return outfile;
 }
@@ -430,9 +442,9 @@ bool operator!=(const date& left, const date& right){
 }
 
 bool operator<(const date& left, const date& right){
-    if((left.day<right.day)&&(left.mounth<right.mounth)&&(left.year<right.year)&&(left.hour<right.hour)&&(left.minutes<right.minutes)){
-        return false;
-    } else{
+    if(minimum_date_without_time(left, right) || (equal_date_without_time(left, right) && minimum_time_without_date(left, right))){
         return true;
+    } else{
+        return false;
     }
 }
