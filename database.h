@@ -10,25 +10,36 @@ struct Node{
 };
 
 class DataBase{
+    int last_numeral_;
 	int count_;
 	Node* begin_;
 	Node* end_;
 public:
-    DataBase(int count=0, Node* begin=nullptr, Node* end=nullptr):count_(count), begin_(begin), end_(end){}
-    DataBase(Ticket& first);
-    int addRecord();
+    DataBase(int last_numeral=0, int count=0, Node* begin=nullptr, Node* end=nullptr):last_numeral_(last_numeral), count_(count), begin_(begin), end_(end){}
+    //DataBase(Ticket& first);
+    //first
+    void addRecord(Ticket& addend);
     void clear();
     void schedule(Array<char> from_, Array<char> to_);
     void printDB() const;
     void saveDB(const char filename[]) const;
     void exportDB(const char filename[]) const;
     int openDB(const char filename[]);
-    void deleteRecord(int indentifical);
-    Node* findRecord(Array<char> from_, Array<char> to_) const;
+    void deleteRecord_for_ID(int indentifical);
+    Node* findRecord_for_input(Array<char> from_, Array<char> to_) const;
+    //second
     void sort();
+    Node* findRecord_for_ID(int ID);
+    void deleteRecord_for_Node(Node* need_delete);
     ~DataBase(){
-        delete begin_;
-        delete end_;
+        Node* now;
+	    while(begin_){
+		    now = begin_->next;
+		    delete begin_;
+		    begin_ = now;
+	    }
+	    begin_ = end_ = nullptr;
+	    count_ = 0;
     }
 };
 
