@@ -7,6 +7,19 @@
 #include "utils.h"
 
 int main(){
+    Array<Ticket> for_sort;
+    char* input="add CA-909, PKX, SVO, 19.02.2024 8:40, 19.02.2024 17:00, 5, 80499";
+    Ticket prime1(input);
+    input="add CA-909, PKX, SVO, 19.02.2024 8:39, 19.02.2024 17:00, 5, 80499";
+    Ticket prime2(input);
+    input="add CA-909, PKX, SVO, 19.02.2024 8:45, 19.02.2024 17:00, 5, 80499";
+    Ticket prime3(input);
+    for_sort.push_back(prime1);
+    for_sort.push_back(prime2);
+    for_sort.push_back(prime3);
+    for_sort.sort(time_from_ticket);
+    std::cout<< for_sort <<std::endl;
+    /*
     DataBase all;
     char* input="add CA-909, PKX, SVO, 19.02.2024 8:40, 19.02.2024 17:00, 5, 80499";
     Ticket prime1(input);
@@ -31,6 +44,7 @@ int main(){
     my.hour=0;
     my.day=0;
     all.schedule(air, my);
+    */
     /*
     Array<char> number1;
     number1.push_back('1');

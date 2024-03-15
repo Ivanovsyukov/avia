@@ -7,9 +7,9 @@
 Ticket::Ticket(){
     count_ticket_=0;
     sale_=0;
-    from_=Array<char>();
-    to_=Array<char>();
-    numeral_=Array<char>();
+    from_=Array<char>(7);
+    to_=Array<char>(3);
+    numeral_=Array<char>(3);
 }
 
 bool cure_day(const date& x){
@@ -426,6 +426,7 @@ std::ostream& operator<<(std::ostream& out, const date& X){
 }
 
 bool time_from_ticket(const Ticket& left, const Ticket& right){
+//bool time_from_ticket(Ticket& left, Ticket& right){
     return (minimum_time_without_date(left.date_from(), right.date_from()));
 }
 
