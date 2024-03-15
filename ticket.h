@@ -49,6 +49,7 @@ public:
 bool operator==(const Ticket& left, const Ticket& right);//ok
 bool operator!=(const Ticket& left, const Ticket& right);//ok
 bool operator<(const Ticket& left, const Ticket& right);//ok
+bool time_from_ticket(const Ticket& left, const Ticket& right);//ok
 
 std::ostream& operator<<(std::ostream& out, const Ticket& X);//ok
 std::ifstream& operator>>(std::ifstream& infile, Ticket& X);//ok

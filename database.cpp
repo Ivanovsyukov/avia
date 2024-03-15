@@ -77,52 +77,73 @@ void DataBase::clear(){
 }
 
 void DataBase::schedule(Array<char> from_air, date data_from){
-	Ticket* important=nullptr;
-	size_t important_size=0;
+	DataBase mini;
 	Node * now = begin_;
 	while(now){
 		if (now->data.from()==from_air && (equal_date_without_time(data_from, now->data.date_from()))){
-			push_element(important, &important_size, now->data);
+			mini.addRecord(now->data);
 		}
 		now = now->next;
 	}
 	//sort
-	Ticket* tmp = new Ticket[important_size];
-	Ticket* from = important;
-	Ticket* to = tmp;
-	for(size_t step=1; step < important_size; step*=2){
-		size_t start1, end1, start2, end2;
-		size_t indto = 0;
-		for(size_t start=0; start<important_size; start += 2*step){
-			start1 = start;
-			end1 = start1+step;
-			end1 = end1<important_size ? end1 : important_size;
-			start2 = end1;
-			end2 = start2+step;
-			end2 = end2<important_size ? end2 : important_size;
-			while(start1<end1 && start2<end2){
-				to[indto++] = (minimum_time_without_date(from[start1++].date_from(), from[start2++].date_from())) ? from[start1++] : from[start2++];
-			}
-			while(start1<end1){
-				to[indto++] = from[start1++];
-			}
-			while(start2<end2){
-				to[indto++] = from[start2++];
-			}
-		}
-		std::swap(from, to);
-	}
-
-	if (from!=important){
-		size_t ind=0;
-		while(ind < important_size){
-			important[ind] = tmp[ind];
-			++ind;
-		}
-	}
-	delete[] tmp;
+	mini.sort(time_from_ticket);
 	//output
-	for(size_t i=0; i<important_size; ++i){
-		std::cout<<important[i].ID()<<" "<<important[i].from()<<important[i].date_from()<<std::endl;
+	Node * nows = mini.begin_;
+	while(nows){
+		std::cout<<nows->data.from()<<" "<<nows->data.date_from()<<std::endl;
+		nows = nows->next;
 	}
+}
+
+void DataBase::sort(bool (*comparator)(const Ticket&, const Ticket&)){
+	if (begin_ == end_) return;
+	bool isSorted = false;
+	do{
+		// Split
+		DataBase tmp[2];
+		unsigned char p=0;
+		tmp[p].begin_ = tmp[p].end_ = begin_;
+		begin_ = begin_->next;
+		tmp[!p].begin_ = tmp[!p].end_ = nullptr;
+
+		while(begin_ != nullptr){
+			if(comparator(begin_->data, tmp[p].end_->data))
+				p = !p;
+			if (tmp[p].begin_)
+				tmp[p].end_->next = begin_;
+			else
+				tmp[p].begin_ = begin_;
+			tmp[p].end_ = begin_;
+			begin_ = begin_->next;
+		}
+		if (tmp[p].end_) tmp[p].end_->next=nullptr;
+		if (tmp[!p].end_) tmp[!p].end_->next=nullptr;
+
+		// Merge
+		if (tmp[!p].begin_){
+			bool s1, s2;
+			p = comparator(tmp[0].begin_->data, tmp[1].begin_->data) ? 0 : 1;
+			begin_ = end_ = tmp[p].begin_;
+			tmp[p].begin_ = tmp[p].begin_->next;
+			while(tmp[p].begin_){
+				s1 = comparator(tmp[p].begin_->data, end_->data);
+				s2 = comparator(tmp[!p].begin_->data, end_->data);
+				if(s1==s2)
+					p = comparator(tmp[0].begin_->data, tmp[1].begin_->data) ? 0 : 1;
+				else
+					if(s1){
+						p=!p;
+					}
+				end_->next = tmp[p].begin_;
+				end_ = end_->next;
+				tmp[p].begin_ = tmp[p].begin_->next;
+			}
+			end_->next = tmp[!p].begin_;
+			end_ = tmp[!p].end_;
+		} else{
+			isSorted = true;
+			begin_ = tmp[p].begin_;
+			end_ = tmp[p].end_;
+		}
+	}while(!isSorted);
 }

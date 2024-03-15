@@ -425,6 +425,10 @@ std::ostream& operator<<(std::ostream& out, const date& X){
     return out;
 }
 
+bool time_from_ticket(const Ticket& left, const Ticket& right){
+    return (minimum_time_without_date(left.date_from(), right.date_from()));
+}
+
 bool operator==(const date& left, const date& right){
     if ((left.day==right.day)&&(left.mounth==right.mounth)&&(left.year==right.year)&&(left.hour==right.hour)&&(left.minutes==right.minutes)){
         return true;

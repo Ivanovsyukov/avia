@@ -28,9 +28,9 @@ public:
     void deleteRecord_for_ID(int indentifical);//ok
     Node* findRecord_for_input(Array<char> from_, Array<char> to_) const;
     //second
-    void sort();
-    Node* findRecord_for_ID(int ID);
-    void deleteRecord_for_Node(Node* need_delete);
+    void sort(bool (*comparator)(const Ticket&, const Ticket&));
+    //Node* findRecord_for_ID(int ID);
+    //void deleteRecord_for_Node(Node* need_delete);
     ~DataBase(){//ok
         Node* now;
 	    while(begin_){
@@ -42,8 +42,6 @@ public:
 	    count_ = 0;
     }
 };
-
-
 
 //void mySort(DataBase& DB, bool (*comparator)(const student&, const student&) );
 #endif
