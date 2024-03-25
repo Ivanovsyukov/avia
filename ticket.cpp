@@ -372,6 +372,42 @@ std::ifstream& operator>>(std::ifstream& infile, Ticket& X){
     return infile;
 }
 
+void Ticket::swap(Ticket& other){
+	std::swap(numeral_, other.numeral_);
+	std::swap(from_, other.from_);
+    std::swap(to_, other.to_);
+	std::swap(date_from_, other.date_from_);
+    std::swap(date_to_, other.date_to_);
+	std::swap(count_ticket_, other.count_ticket_);
+    std::swap(sale_, other.sale_);
+}
+
+Ticket::Ticket(Ticket&& other){
+    numeral_=Array<char>(0);
+    from_=Array<char>(0);
+    to_=Array<char>(0);
+    date_from_.day=0;
+    date_from_.mounth=0;
+    date_from_.year=0;
+    date_from_.hour=0;
+    date_from_.minutes=0;
+    date_to_.day=0;
+    date_to_.mounth=0;
+    date_to_.year=0;
+    date_to_.hour=0;
+    date_to_.minutes=0;
+    count_ticket_=0;
+    sale_=0.0;
+	swap(other);
+}
+
+Ticket& Ticket::operator=(Ticket&& other){
+	if (this!= &other){
+		swap(other);
+	}
+	return *this;
+}
+
 std::ofstream& operator<<(std::ofstream& outfile, const Ticket& X){
     outfile<<X.ID();
     outfile<<','<<' ';
